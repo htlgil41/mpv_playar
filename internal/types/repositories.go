@@ -23,3 +23,8 @@ type VIDEOS struct {
 	Descripcion    string
 	Nombre_archivo string
 }
+
+type INSERT_PLAYLIST struct {
+	Nombre      string
+	Descripcion string
+}

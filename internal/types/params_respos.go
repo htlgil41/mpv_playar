@@ -6,10 +6,9 @@ type INSERTPID struct {
 	Estado string
 }
 
-type BODY_CREATE_NEW_VIDEO struct {
-	Titulo         string `json:"titulo" binding:"required"`
-	Descripcion    string `json:"descripcion" binding:"required"`
-	Nombre_archivo string `json:"nombre_archivo" binding:"required"`
+type BODY_CREATE_PLAYLIST struct {
+	Nombre      string `json:"nombre" binding:"required"`
+	Descripcion string `json:"descripcion" binding:"required"`
 }
 
 type BODY_ADD_VIDEO_PLAYLIST struct {

@@ -34,8 +34,11 @@ var (
 			iniciado_en DATETIME DEFAULT CURRENT_TIMESTAMP
 		);
 	`
-	INSERT_PID_STATEMENT    = "INSERT OR REPLACE INTO procesos_ejecucion (pid, ruta_ejecutable, estado) VALUES (?, ?, ?);"
-	INSERT_VIDE0S_STATEMENT = "INSERT INTO videos (titulo, descripcion, nombre_archivo) VALUES (?, ?, ?);"
+	INSERT_PID_STATEMENT      = "INSERT OR REPLACE INTO procesos_ejecucion (pid, ruta_ejecutable, estado) VALUES (?, ?, ?);"
+	INSERT_PLAYLIST_STATEMENT = `
+		INSERT INTO playlists (nombre, descripcion)
+		VALUES (?, ?)
+	`
 
 	GET_VIDEOS_PAGES_EXECUTE = `
 		SELECT id, titulo, descripcion, nombre_archivo, creado_en 

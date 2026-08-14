@@ -39,6 +39,26 @@ func InsertProcess(db *sql.DB, input types.INSERTPID) (bool, error) {
 	return true, nil
 }
 
+func InsetPlaylist(db *sql.DB, input types.INSERT_PLAYLIST) (bool, error) {
+	prepare, err_prepare := db.Prepare(vars.INSERT_PLAYLIST_STATEMENT)
+	if err_prepare != nil {
+		return false, nil
+	}
+
+	result, err_execute := prepare.Exec(input.Nombre, input.Descripcion)
+	if err_execute != nil {
+		return false, err_execute
+	}
+
+	_, err_rows := result.RowsAffected()
+	if err_rows != nil {
+		return false, err_rows
+	}
+
+	return true, nil
+
+}
+
 /* SELECTS */
 func GETLASTPIDPATH(db *sql.DB) (*[]types.PROCESS_EXECUTE, error) {
 	results, err := db.Query(vars.GET_LAST_TEN_PROCESS_EXECUTE)
