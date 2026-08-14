@@ -8,7 +8,6 @@ import (
 	"playar/internal/helpers"
 	"playar/internal/libs"
 	"playar/internal/repositories"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,20 +34,18 @@ func PlayListNew(db *sql.DB, cnet net.Conn, config *libs.ConfigApp) gin.HandlerF
 			})
 			return
 		}
-
-		var command strings.Builder
-		command.Grow(len(videos))
 		var videos_noadd []string = []string{}
 
 		for i, v := range videos {
+			var command string
 			if i == 0 {
-				fmt.Fprintf(&command, `{ "command": ["loadfile", "%s%s", "append-play"] }`,
+				command = fmt.Sprintf(`{ "command": ["loadfile", "%s%s", "append-play"] }`,
 					config.Paths.Path_mega,
 					v,
 				)
 			}
 
-			fmt.Fprintf(&command, `{ "command": ["loadfile", "%s%s", "append"] }`,
+			command = fmt.Sprintf(`{ "command": ["loadfile", "%s%s", "append"] }`,
 				config.Paths.Path_mega,
 				v,
 			)
@@ -60,7 +57,7 @@ func PlayListNew(db *sql.DB, cnet net.Conn, config *libs.ConfigApp) gin.HandlerF
 				continue
 			}
 
-			_, err_write := cnet.Write([]byte(command.String() + "\n"))
+			_, err_write := cnet.Write([]byte(command + "\n"))
 			if err_write != nil {
 				c.JSON(http.StatusInternalServerError, gin.H{
 					"error":   err_write.Error(),
