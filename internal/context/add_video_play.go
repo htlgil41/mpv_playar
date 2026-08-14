@@ -18,7 +18,7 @@ func ADDVIDEOPLAYCONTECXT(
 	return gin.HandlerFunc(func(c *gin.Context) {
 		var body types.BODY_ADD_VIDEO_PLAYLIST
 		if err_body := c.ShouldBindJSON(&body); err_body != nil {
-			c.JSON(http.StatusOK, gin.H{"message": "matched error body params"})
+			c.JSON(http.StatusOK, gin.H{"message": "matched error body params", "error": err_body.Error()})
 			return
 		}
 
