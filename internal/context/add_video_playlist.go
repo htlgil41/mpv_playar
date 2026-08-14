@@ -33,7 +33,7 @@ func ADDVIDEOPLAYLIST(db *sql.DB) gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusOK, gin.H{
 			"error":   nil,
 			"message": "Musica agregada correctamente",
 			"data":    body,
