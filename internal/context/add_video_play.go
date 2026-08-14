@@ -1,7 +1,6 @@
 package context
 
 import (
-	"bufio"
 	"fmt"
 	"net"
 	"net/http"
@@ -47,21 +46,9 @@ func ADDVIDEOPLAYCONTECXT(
 			return
 		}
 
-		reader := bufio.NewReader(cnect)
-		output, err_output := reader.ReadString('\n')
-		if err_output != nil {
-			c.JSON(http.StatusOK, gin.H{
-				"error": gin.H{
-					"error_message": "No se ha podido leer la salida del servidor unix",
-					"error":         err_output.Error(),
-				},
-			})
-			return
-		}
-
 		c.JSON(http.StatusOK, gin.H{
-			"message": "Se ha podido ejecutar correctamente el comando verifique el output directamente",
-			"output":  output,
+			"message": "Se ha podido ejecutar correctamente el comando.",
+			"error":   nil,
 		})
 	})
 }
