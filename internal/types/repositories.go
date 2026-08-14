@@ -25,6 +25,7 @@ type VIDEOS struct {
 }
 
 type PLAYLIST struct {
+	ID          int64
 	Nombre      string
 	Descripcion string
 }

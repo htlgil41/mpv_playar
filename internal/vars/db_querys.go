@@ -48,7 +48,7 @@ var (
 			ORDER BY iniciado_en DESC 
 			LIMIT 10;
 	`
-	GET_LIST_PLAYIST = `SELECT nombre, descripcion FROM playlists order by creado_en DESC`
+	GET_LIST_PLAYIST = `SELECT id, nombre, descripcion FROM playlists order by creado_en DESC`
 
 	INSERT_PID_STATEMENT      = "INSERT OR REPLACE INTO procesos_ejecucion (pid, ruta_ejecutable, estado) VALUES (?, ?, ?);"
 	INSERT_PLAYLIST_STATEMENT = `

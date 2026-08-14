@@ -113,7 +113,7 @@ func GetListOfPlaylist(db *sql.DB) (*[]types.PLAYLIST, error) {
 	var listado []types.PLAYLIST = []types.PLAYLIST{}
 	for rows.Next() {
 		var video types.PLAYLIST = types.PLAYLIST{}
-		if err_scan := rows.Scan(&video.Nombre, &video.Descripcion); err_scan != nil {
+		if err_scan := rows.Scan(&video.ID, &video.Nombre, &video.Descripcion); err_scan != nil {
 			continue
 		}
 
