@@ -2,7 +2,6 @@ package context
 
 import (
 	"bufio"
-	"fmt"
 	"net"
 	"net/http"
 
@@ -29,9 +28,8 @@ func VIEWPLAYLISTCONTEXT(cnet net.Conn) gin.HandlerFunc {
 					"error":         err_putput.Error(),
 				},
 			})
+			return
 		}
-
-		fmt.Println(output)
 		c.JSON(http.StatusOK, gin.H{
 			"message": "Playlist actualmente en el servidor unix",
 			"output":  output,

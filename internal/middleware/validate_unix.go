@@ -30,14 +30,14 @@ func ValidateUnixMiddlewareContext(cnet net.Conn) gin.HandlerFunc {
 			return
 		}
 
-		if status.Error == "sucess" {
+		if status.Error == "success" {
 			c.Next()
 			return
 		}
 
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Error en la verificacion valide el output",
-			"message": "Debido a este erro no podemos dejarlo pasar al siguiente context",
+			"message": "Debido a este error no podemos dejarlo pasar al siguiente context",
 			"output":  status,
 		})
 	})
