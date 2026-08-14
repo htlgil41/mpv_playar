@@ -143,3 +143,19 @@ func GetListOfPlaylist(db *sql.DB) (*[]types.PLAYLIST, error) {
 
 	return &listado, nil
 }
+
+func GetListVideoByPlayList(db *sql.DB, idplaylist int64) ([]string, error) {
+	var listados []string = []string{}
+	resultados, err_r := db.Query(vars.GET_VIDEO_BY_PLAYLIST, idplaylist)
+	if err_r != nil {
+		return nil, err_r
+	}
+
+	for resultados.Next() {
+		var value string
+		resultados.Scan(&value)
+		listados = append(listados, value)
+	}
+
+	return listados, nil
+}
