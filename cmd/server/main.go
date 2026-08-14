@@ -65,7 +65,6 @@ func main() {
 
 	router.GET("/ping", context.PingContext(db_local))
 	router.GET("/pid", context.GetLastPids(db_local))
-	router.GET("/videos", context.GETVIDEOSPAGES(db_local))
 	router.GET("/videos-mega", context.GETVIDEOPATHCONTEX(config_vyper.Paths.Path_mega))
 	router.POST("/video", context.CreateVideoContext(db_local))
 	router.POST("/add-videoplaylist", context.ADDVIDEOPLAYCONTECXT(server_unix, config_vyper))
