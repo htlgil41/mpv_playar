@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS playlists (
 );
 
 CREATE TABLE IF NOT EXISTS playlist_videos (
-    playlist_id PRIMARY KEY INTEGER,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    playlist_id INTEGER,
     video TEXT,
     orden INTEGER NOT NULL DEFAULT 0,
     agregado_en DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -23,7 +24,7 @@ CREATE TABLE IF NOT EXISTS procesos_ejecucion (
 
 CREATE INDEX IF NOT EXISTS idx_playlist_videos_playlist_id ON playlist_videos(playlist_id);
 CREATE INDEX IF NOT EXISTS idx_playlist_videos_orden ON playlist_videos(playlist_id, orden);
-CREATE INDEX IF NOT EXISTS idx_playlist_videos_video_id ON playlist_videos(video_id);
+CREATE INDEX IF NOT EXISTS idx_playlist_videos_video ON playlist_videos(video);
 CREATE INDEX IF NOT EXISTS idx_playlists_nombre ON playlists(nombre);
 CREATE INDEX IF NOT EXISTS idx_playlists_creado_en ON playlists(creado_en);
 CREATE INDEX IF NOT EXISTS idx_procesos_pid ON procesos_ejecucion(pid);

@@ -102,3 +102,5 @@ func GETLASTPIDPATH(db *sql.DB) (*[]types.PROCESS_EXECUTE, error) {
 
 	return &x, nil
 }
+
+func GetListOfPlaylist() {}

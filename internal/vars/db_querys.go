@@ -35,16 +35,6 @@ var (
 		CREATE INDEX IF NOT EXISTS idx_procesos_iniciado_en ON procesos_ejecucion(iniciado_en);
 		CREATE INDEX IF NOT EXISTS idx_procesos_estado_iniciado ON procesos_ejecucion(estado, iniciado_en);
 	`
-	INSERT_PID_STATEMENT      = "INSERT OR REPLACE INTO procesos_ejecucion (pid, ruta_ejecutable, estado) VALUES (?, ?, ?);"
-	INSERT_PLAYLIST_STATEMENT = `
-		INSERT INTO playlists (nombre, descripcion)
-		VALUES (?, ?)
-	`
-	INSERT_VIDEOS_ON_PLAYLIST = `
-		INSERT INTO playlist_videos (playlist_id, video, orden)
-		VALUES (?, ?, ?)
-	`
-
 	GET_VIDEOS_PAGES_EXECUTE = `
 		SELECT id, titulo, descripcion, nombre_archivo, creado_en 
               FROM videos 
@@ -56,5 +46,16 @@ var (
 			FROM procesos_ejecucion 
 			ORDER BY iniciado_en DESC 
 			LIMIT 10;
+	`
+	GET_LIST_PLAYIST = `SELECT nombre, descripcion FROM playlists`
+
+	INSERT_PID_STATEMENT      = "INSERT OR REPLACE INTO procesos_ejecucion (pid, ruta_ejecutable, estado) VALUES (?, ?, ?);"
+	INSERT_PLAYLIST_STATEMENT = `
+		INSERT INTO playlists (nombre, descripcion)
+		VALUES (?, ?)
+	`
+	INSERT_VIDEOS_ON_PLAYLIST = `
+		INSERT INTO playlist_videos (playlist_id, video, orden)
+		VALUES (?, ?, ?)
 	`
 )
