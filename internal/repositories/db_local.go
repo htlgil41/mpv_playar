@@ -44,6 +44,7 @@ func InsetPlaylist(db *sql.DB, input types.INSERT_PLAYLIST) (bool, error) {
 	if err_prepare != nil {
 		return false, nil
 	}
+	defer prepare.Close()
 
 	result, err_execute := prepare.Exec(input.Nombre, input.Descripcion)
 	if err_execute != nil {
@@ -64,6 +65,7 @@ func InserVideoPlaylist(db *sql.DB, input types.INSERT_MUSIC_PLAYLIST) (bool, er
 	if err_statement != nil {
 		return false, nil
 	}
+	defer statement.Close()
 
 	result, err_result := statement.Exec(input.Playlist_id, input.Video, input.Orden)
 	if err_result != nil {
