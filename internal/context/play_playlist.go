@@ -14,7 +14,7 @@ import (
 
 func PlayListNew(db *sql.DB, cnet net.Conn, config *libs.ConfigApp) gin.HandlerFunc {
 	return gin.HandlerFunc(func(c *gin.Context) {
-		_, err_outcommand := cnet.Write([]byte(`{ "command": ["stop"] }` + "\n"))
+		_, err_outcommand := cnet.Write([]byte(`{ "command": ["stop"] }` + "\n" + `{ "command": ["playlist-clear"] }` + "\n"))
 		if err_outcommand != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error":   err_outcommand.Error(),
