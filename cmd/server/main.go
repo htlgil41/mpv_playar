@@ -6,6 +6,7 @@ import (
 	"playar/internal/database"
 	"playar/internal/helpers"
 	"playar/internal/libs"
+	"playar/internal/middleware"
 	"playar/internal/repositories"
 	"playar/internal/types"
 	"time"
@@ -57,13 +58,16 @@ func main() {
 	/* CONFIG API GIN EXECUTE */
 	router := gin.Default()
 
-	/* GETS */
 	router.GET("/ping", context.PingContext(db_local, server_unix))
 	router.GET("/pid", context.GetLastPids(db_local))
 	router.GET("/videos", context.GETVIDEOSPAGES(db_local))
 
-	/* INSERT */
 	router.GET("/video", context.CreateVideoContext(db_local, types.VIDEOS{Titulo: "Prueba", Descripcion: "Prueba de video", Nombre_archivo: "Prueba.mp4"}))
+
+	router.POST("/next",
+		middleware.ValidateUnixMiddlewareContext(server_unix),
+		context.NextVideosContext(server_unix),
+	)
 
 	router.Run(":8000")
 }

@@ -3,8 +3,10 @@ package context
 import (
 	"bufio"
 	"database/sql"
+	"encoding/json"
 	"net"
 	"net/http"
+	"playar/internal/types"
 
 	"github.com/gin-gonic/gin"
 )
@@ -37,6 +39,15 @@ func PingContext(
 
 		reader := bufio.NewReader(cnet)
 		output, errout := reader.ReadString('\n')
+		var status types.ServerUnix_StatusResponse
+
+		if err := json.Unmarshal([]byte(output), &status); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error":   "Error al deserealizar la respuesta del servidor unix",
+				"message": "Debido a este erro no podemos dejarlo pasar al siguiente context",
+			})
+			return
+		}
 
 		if errout != nil {
 			c.JSON(http.StatusOK, gin.H{
@@ -51,7 +62,7 @@ func PingContext(
 			"sucess":      "ok",
 			"status":      "server ok",
 			"status_db":   "ok",
-			"server_unix": output,
+			"server_unix": status,
 		})
 	})
 }
