@@ -29,7 +29,7 @@ func CREATEPLAYLIST(db *sql.DB) gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusCreated, gin.H{
 			"error":   nil,
 			"message": "Plyalist creada correctamente",
 		})
