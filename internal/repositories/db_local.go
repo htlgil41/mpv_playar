@@ -98,9 +98,32 @@ func GETLASTPIDPATH(db *sql.DB) (*[]types.PROCESS_EXECUTE, error) {
 
 	if err_result := results.Err(); err_result != nil {
 		fmt.Println(err_result.Error())
+		return nil, err_result
 	}
 
 	return &x, nil
 }
 
-func GetListOfPlaylist() {}
+func GetListOfPlaylist(db *sql.DB) (*[]types.PLAYLIST, error) {
+	rows, err_ros := db.Query(vars.GET_LIST_PLAYIST)
+	if err_ros != nil {
+		return nil, err_ros
+	}
+
+	var listado []types.PLAYLIST = []types.PLAYLIST{}
+	for rows.Next() {
+		var video types.PLAYLIST = types.PLAYLIST{}
+		if err_scan := rows.Scan(&video.Nombre, &video.Descripcion); err_scan != nil {
+			continue
+		}
+
+		listado = append(listado, video)
+	}
+
+	if err_result := rows.Err(); err_result != nil {
+		fmt.Println(err_result.Error())
+		return nil, err_result
+	}
+
+	return &listado, nil
+}
