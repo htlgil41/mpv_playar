@@ -40,8 +40,15 @@ func PlayListNew(db *sql.DB, cnet net.Conn, config *libs.ConfigApp) gin.HandlerF
 		command.Grow(len(videos))
 		var videos_noadd []string = []string{}
 
-		for _, v := range videos {
-			fmt.Fprintf(&command, `{ "command": ["loadfile", "%s%s", "append-play", "fullscreen=yes"] }`+"\n",
+		for i, v := range videos {
+			if i == 0 {
+				fmt.Fprintf(&command, `{ "command": ["loadfile", "%s%s", "append-play", "fullscreen=yes"] }`+"\n",
+					config.Paths.Path_mega,
+					v,
+				)
+			}
+
+			fmt.Fprintf(&command, `{ "command": ["loadfile", "%s%s", "append", "fullscreen=yes"] }`+"\n",
 				config.Paths.Path_mega,
 				v,
 			)
