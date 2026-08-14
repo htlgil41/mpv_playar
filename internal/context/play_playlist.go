@@ -23,10 +23,7 @@ func PlayListNew(db *sql.DB, cnet net.Conn, config *libs.ConfigApp) gin.HandlerF
 			return
 		}
 
-		videos, err_videos := repositories.GetListVideoByPlayList(
-			db,
-			1,
-		)
+		videos, err_videos := repositories.GetListVideoByPlayList(db, 1)
 		if err_videos != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error":   err_videos.Error(),
@@ -34,42 +31,40 @@ func PlayListNew(db *sql.DB, cnet net.Conn, config *libs.ConfigApp) gin.HandlerF
 			})
 			return
 		}
+
 		var videos_noadd []string = []string{}
+		videos_agregados := 0
 
-		for i, v := range videos {
-			var command string
-			if i == 0 {
-				command = fmt.Sprintf(`{ "command": ["loadfile", "%s%s", "append-play"] }`,
-					config.Paths.Path_mega,
-					v,
-				)
-			}
-
-			command = fmt.Sprintf(`{ "command": ["loadfile", "%s%s", "append"] }`,
-				config.Paths.Path_mega,
-				v,
-			)
-
+		for _, v := range videos {
 			path := fmt.Sprintf("%s%s", config.Paths.Path_mega, v)
+
 			if !helpers.ExisteArchivo(path) {
 				videos_noadd = append(videos_noadd, v)
-
 				continue
+			}
+
+			var command string
+			if videos_agregados == 0 {
+				command = fmt.Sprintf(`{ "command": ["loadfile", "%s", "append-play"] }`, path)
+			} else {
+				command = fmt.Sprintf(`{ "command": ["loadfile", "%s", "append"] }`, path)
 			}
 
 			_, err_write := cnet.Write([]byte(command + "\n"))
 			if err_write != nil {
 				c.JSON(http.StatusInternalServerError, gin.H{
 					"error":   err_write.Error(),
-					"message": "No se ha podido agregar el video",
+					"message": "No se ha podido agregar el video a la lista",
 				})
-				continue
+				return
 			}
+
+			videos_agregados++
 		}
 
 		c.JSON(http.StatusOK, gin.H{
 			"data":           videos,
-			"message":        "Videos enviada a lista correctamente",
+			"message":        "Playlist unificada creada y reproduciendo correctamente",
 			"video_notfound": videos_noadd,
 		})
 	})
