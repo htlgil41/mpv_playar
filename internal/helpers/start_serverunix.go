@@ -17,7 +17,6 @@ func StartServerUnix(displays int) (StartServerUnixResponse, error) {
 		[]string{
 			"--input-ipc-server=/tmp/mpvsocket",
 			"--idle=yes",
-			"--vo=null",
 			"--fullscreen=yes",
 			fmt.Sprintf("--screen=%d", displays),
 			"--loop-playlist=inf",

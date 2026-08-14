@@ -6,7 +6,6 @@ import (
 	"playar/internal/database"
 	"playar/internal/helpers"
 	"playar/internal/libs"
-	"playar/internal/middleware"
 	"playar/internal/repositories"
 	"playar/internal/types"
 	"time"
@@ -60,25 +59,18 @@ func main() {
 	}
 
 	defer server_unix.Close()
-
-	time.Sleep(8 * time.Second)
+	time.Sleep(3 * time.Second)
 	/* CONFIG API GIN EXECUTE */
 	router := gin.Default()
 
-	router.GET("/ping", context.PingContext(db_local, server_unix))
+	router.GET("/ping", context.PingContext(db_local))
 	router.GET("/pid", context.GetLastPids(db_local))
 	router.GET("/videos", context.GETVIDEOSPAGES(db_local))
-	router.GET("/video", context.CreateVideoContext(db_local))
-
 	router.GET("/videos-mega", context.GETVIDEOPATHCONTEX(config_vyper.Paths.Path_mega))
-	router.GET("/view-playlist",
-		middleware.ValidateUnixMiddlewareContext(server_unix),
-		context.VIEWPLAYLISTCONTEXT(server_unix),
-	)
-	router.POST("/next",
-		middleware.ValidateUnixMiddlewareContext(server_unix),
-		context.NextVideosContext(server_unix),
-	)
+	router.GET("/view-playlist", context.VIEWPLAYLISTCONTEXT(server_unix))
+	router.POST("/video", context.CreateVideoContext(db_local))
+	router.POST("/add-videoplaylist", context.ADDVIDEOPLAYCONTECXT(server_unix, config_vyper))
+	router.POST("/next", context.NextVideosContext(server_unix))
 
 	router.Run(fmt.Sprintf(":%d", config_vyper.Server.Port))
 }
