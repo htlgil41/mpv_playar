@@ -59,6 +59,25 @@ func InsetPlaylist(db *sql.DB, input types.INSERT_PLAYLIST) (bool, error) {
 
 }
 
+func InserVideoPlaylist(db *sql.DB, input types.INSERT_MUSIC_PLAYLIST) (bool, error) {
+	statement, err_statement := db.Prepare(vars.INSERT_VIDEOS_ON_PLAYLIST)
+	if err_statement != nil {
+		return false, nil
+	}
+
+	result, err_result := statement.Exec()
+	if err_result != nil {
+		return false, err_result
+	}
+
+	_, err_rows := result.RowsAffected()
+	if err_rows != nil {
+		return false, err_rows
+	}
+
+	return true, nil
+}
+
 /* SELECTS */
 func GETLASTPIDPATH(db *sql.DB) (*[]types.PROCESS_EXECUTE, error) {
 	results, err := db.Query(vars.GET_LAST_TEN_PROCESS_EXECUTE)

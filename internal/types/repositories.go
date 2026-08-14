@@ -28,3 +28,9 @@ type INSERT_PLAYLIST struct {
 	Nombre      string
 	Descripcion string
 }
+
+type INSERT_MUSIC_PLAYLIST struct {
+	Playlist_id int64
+	Video       string
+	Orden       int
+}
