@@ -65,7 +65,7 @@ func InserVideoPlaylist(db *sql.DB, input types.INSERT_MUSIC_PLAYLIST) (bool, er
 		return false, nil
 	}
 
-	result, err_result := statement.Exec()
+	result, err_result := statement.Exec(input.Playlist_id, input.Video, input.Orden)
 	if err_result != nil {
 		return false, err_result
 	}
