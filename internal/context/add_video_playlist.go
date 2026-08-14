@@ -14,7 +14,7 @@ func ADDVIDEOPLAYLIST(db *sql.DB) gin.HandlerFunc {
 		var body types.BODY_ADD_MUSIC_PLAYLIST
 		if err_serealized := c.ShouldBindJSON(&body); err_serealized != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"error":   "Error al serealizar",
+				"error":   err_serealized.Error(),
 				"message": "No se pudo serealizar los datos que se requieren guardar",
 			})
 			return
