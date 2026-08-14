@@ -37,7 +37,7 @@ func main() {
 		fmt.Println("EXECUTE INIT DB NO SE CREO NADA DE NUEVO SE PUDO CARGAR LA DB")
 	}
 
-	serverUnix, err_initserverunix := helpers.StartServerUnix()
+	serverUnix, err_initserverunix := helpers.StartServerUnix(libs.ScreenShotsView())
 	if err_initserverunix != nil {
 		return
 	}

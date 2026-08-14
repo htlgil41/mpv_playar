@@ -11,7 +11,7 @@ type StartServerUnixResponse struct {
 	Path string
 }
 
-func StartServerUnix() (StartServerUnixResponse, error) {
+func StartServerUnix(displays int) (StartServerUnixResponse, error) {
 	cmd := ExecuteCommand(
 		"mpv",
 		[]string{
@@ -19,7 +19,7 @@ func StartServerUnix() (StartServerUnixResponse, error) {
 			"--idle=yes",
 			"--vo=null",
 			"--fullscreen=yes",
-			"--screen=0",
+			fmt.Sprintf("--screen=%d", displays),
 			"--loop-playlist=inf",
 		},
 		context.Background(),
