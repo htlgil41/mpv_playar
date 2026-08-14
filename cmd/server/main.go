@@ -16,6 +16,13 @@ import (
 )
 
 func main() {
+
+	config_vyper, err_configvyper := libs.LoadConfigWithVyper(".")
+	if err_configvyper != nil {
+		fmt.Println(err_configvyper.Error())
+		return
+	}
+
 	db_local, err_dblocacl := database.CreateDbSqlLite()
 	if err_dblocacl != nil {
 		fmt.Println(err_dblocacl)
@@ -46,7 +53,7 @@ func main() {
 		fmt.Println("PROCESS REGISTER SUCESS")
 	}
 
-	server_unix, err_serverunix := libs.ServerSocketForUnix("/tmp/mpvsocket")
+	server_unix, err_serverunix := libs.ServerSocketForUnix(config_vyper.UnixServerMpv.Path_server)
 	if err_serverunix != nil {
 		fmt.Println(err_serverunix.Error())
 		return
@@ -61,9 +68,9 @@ func main() {
 	router.GET("/ping", context.PingContext(db_local, server_unix))
 	router.GET("/pid", context.GetLastPids(db_local))
 	router.GET("/videos", context.GETVIDEOSPAGES(db_local))
-
 	router.GET("/video", context.CreateVideoContext(db_local, types.VIDEOS{Titulo: "Prueba", Descripcion: "Prueba de video", Nombre_archivo: "Prueba.mp4"}))
 
+	router.GET("/videos-mega", context.GETVIDEOPATHCONTEX(config_vyper.Paths.Path_mega))
 	router.GET("/view-playlist",
 		middleware.ValidateUnixMiddlewareContext(server_unix),
 		context.VIEWPLAYLISTCONTEXT(server_unix),
@@ -73,5 +80,5 @@ func main() {
 		context.NextVideosContext(server_unix),
 	)
 
-	router.Run(":8000")
+	router.Run(fmt.Sprintf(":%d", config_vyper.Server.Port))
 }

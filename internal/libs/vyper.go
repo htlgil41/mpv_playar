@@ -8,8 +8,18 @@ type Paths struct {
 	Path_mega string `mapstructure:"path_mega"`
 }
 
+type Server struct {
+	Port int64 `mapstructure:"port"`
+}
+
+type UnixServerMpv struct {
+	Path_server string `mapstructure:"path_server"`
+}
+
 type ConfigApp struct {
-	Paths Paths `mapstructure:"paths"`
+	Paths         Paths         `mapstructure:"paths"`
+	UnixServerMpv UnixServerMpv `mapstructure:"unixservermpv"`
+	Server        Server        `mapstructure:"server"`
 }
 
 func LoadConfigWithVyper(path string) (*ConfigApp, error) {
