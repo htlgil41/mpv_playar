@@ -64,6 +64,10 @@ func main() {
 
 	router.GET("/video", context.CreateVideoContext(db_local, types.VIDEOS{Titulo: "Prueba", Descripcion: "Prueba de video", Nombre_archivo: "Prueba.mp4"}))
 
+	router.GET("/view-playlist",
+		middleware.ValidateUnixMiddlewareContext(server_unix),
+		context.VIEWPLAYLISTCONTEXT(server_unix),
+	)
 	router.POST("/next",
 		middleware.ValidateUnixMiddlewareContext(server_unix),
 		context.NextVideosContext(server_unix),
