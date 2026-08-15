@@ -67,6 +67,19 @@ func InserVideoPlaylist(db *sql.DB, input types.INSERT_MUSIC_PLAYLIST) (bool, er
 	}
 	defer statement.Close()
 
+	var count_playlist int
+	exists_playlist := db.QueryRow(
+		"SELECT count(*) FROM playlists where id = ?",
+		input.Playlist_id,
+	).Scan(&count_playlist)
+
+	if exists_playlist != nil {
+		return false, exists_playlist
+	}
+	if count_playlist == 0 {
+		return false, fmt.Errorf("No se ha podido encontrar la playlist")
+	}
+
 	var count int
 	err := db.QueryRow(
 		"SELECT COUNT(*) FROM playlist_videos WHERE video = ? AND playlist_id = ?",
