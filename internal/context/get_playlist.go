@@ -21,7 +21,7 @@ func GETPLAYLISTCONTEXT(db *sql.DB) gin.HandlerFunc {
 
 		c.JSON(http.StatusOK, gin.H{
 			"data":    playlist,
-			"message": "Messages obtenidos desde la db",
+			"message": "Playlist obtenidos desde la db",
 		})
 	})
 }
