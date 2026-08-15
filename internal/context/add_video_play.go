@@ -22,7 +22,7 @@ func ADDVIDEOPLAYCONTECXT(
 		}
 
 		command := fmt.Sprintf(
-			`{ "command": ["loadfile", "%s%s", "append-play", "fullscreen=yes"] }`,
+			`{ "command": ["loadfile", "%s%s", "append", "fullscreen=yes"] }`,
 			config.Paths.Path_mega,
 			body.Titulo,
 		)
