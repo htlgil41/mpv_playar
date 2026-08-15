@@ -2,7 +2,6 @@ package context
 
 import (
 	"fmt"
-	"net"
 	"net/http"
 	"playar/internal/helpers"
 	"playar/internal/libs"
@@ -12,7 +11,7 @@ import (
 )
 
 func ADDVIDEOPLAYCONTECXT(
-	cnect net.Conn,
+	cnect *libs.ConnectionUnix,
 	config *libs.ConfigApp,
 ) gin.HandlerFunc {
 	return gin.HandlerFunc(func(c *gin.Context) {
@@ -37,7 +36,7 @@ func ADDVIDEOPLAYCONTECXT(
 			return
 		}
 
-		_, err_write := cnect.Write([]byte(command + "\n"))
+		_, err_write := cnect.Connect.Write([]byte(command + "\n"))
 		if err_write != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error":   err_write.Error(),

@@ -1,15 +1,15 @@
 package context
 
 import (
-	"net"
 	"net/http"
+	"playar/internal/libs"
 
 	"github.com/gin-gonic/gin"
 )
 
-func CLEARPLAYLISTCONTEXT(cnet net.Conn) gin.HandlerFunc {
+func CLEARPLAYLISTCONTEXT(cnet *libs.ConnectionUnix) gin.HandlerFunc {
 	return gin.HandlerFunc(func(c *gin.Context) {
-		_, err_outcommand := cnet.Write([]byte(`{ "command": ["stop"] }` + "\n"))
+		_, err_outcommand := cnet.Connect.Write([]byte(`{ "command": ["stop"] }` + "\n"))
 		if err_outcommand != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error":   err_outcommand.Error(),

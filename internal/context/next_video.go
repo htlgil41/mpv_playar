@@ -1,15 +1,15 @@
 package context
 
 import (
-	"net"
 	"net/http"
+	"playar/internal/libs"
 
 	"github.com/gin-gonic/gin"
 )
 
-func NextVideosContext(cnet net.Conn) gin.HandlerFunc {
+func NextVideosContext(cnet *libs.ConnectionUnix) gin.HandlerFunc {
 	return gin.HandlerFunc(func(c *gin.Context) {
-		_, err_outcommand := cnet.Write([]byte(`{ "command": ["playlist-next"] }` + "\n"))
+		_, err_outcommand := cnet.Connect.Write([]byte(`{ "command": ["playlist-next"] }` + "\n"))
 		if err_outcommand != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error":   err_outcommand.Error(),

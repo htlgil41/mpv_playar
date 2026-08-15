@@ -157,5 +157,9 @@ func GetListVideoByPlayList(db *sql.DB, idplaylist int64) ([]string, error) {
 		listados = append(listados, value)
 	}
 
+	if err_res := resultados.Err(); err_res != nil {
+		return nil, err_res
+	}
+
 	return listados, nil
 }

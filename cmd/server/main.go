@@ -58,7 +58,7 @@ func main() {
 		return
 	}
 
-	defer server_unix.Close()
+	defer server_unix.Connect.Close()
 	time.Sleep(3 * time.Second)
 	/* CONFIG API GIN EXECUTE */
 	router := gin.Default()

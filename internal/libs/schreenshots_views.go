@@ -10,7 +10,7 @@ func ScreenShotsView() int {
 	n := screenshot.NumActiveDisplays()
 	fmt.Printf("Número de monitores conectados: %d\n", n)
 
-	for i := 0; i < n; i++ {
+	for i := range n {
 		bounds := screenshot.GetDisplayBounds(i)
 
 		fmt.Printf("Monitor %d: resolución %dx%d en posición (%d, %d)\n",

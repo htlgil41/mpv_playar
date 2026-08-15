@@ -2,10 +2,14 @@ package libs
 
 import "net"
 
-func ServerSocketForUnix(path string) (net.Conn, error) {
+type ConnectionUnix struct {
+	Connect net.Conn
+}
+
+func ServerSocketForUnix(path string) (*ConnectionUnix, error) {
 	con, err_con := net.Dial("unix", path)
 	if err_con != nil {
 		return nil, err_con
 	}
-	return con, nil
+	return &ConnectionUnix{Connect: con}, nil
 }
