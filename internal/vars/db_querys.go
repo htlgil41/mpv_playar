@@ -30,7 +30,7 @@ var (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			video TEXT NOT NULL,
 			create_to DATETIME DEFAULT CURRENT_TIMESTAMP
-		)
+		);
 
 		CREATE INDEX IF NOT EXISTS idx_playlist_videos_playlist_id ON playlist_videos(playlist_id);
 		CREATE INDEX IF NOT EXISTS idx_playlist_videos_orden ON playlist_videos(playlist_id, orden);
@@ -41,8 +41,8 @@ var (
 		CREATE INDEX IF NOT EXISTS idx_procesos_estado ON procesos_ejecucion(estado);
 		CREATE INDEX IF NOT EXISTS idx_procesos_iniciado_en ON procesos_ejecucion(iniciado_en);
 		CREATE INDEX IF NOT EXISTS idx_procesos_estado_iniciado ON procesos_ejecucion(estado, iniciado_en);
-		CREATE INDEX idx_stadicticasPlay_fecha_video ON stadicticasPlay (create_to, video);
-		CREATE INDEX idx_stadicticasPlay_date_expr ON stadicticasPlay (DATE(create_to), video);
+		CREATE INDEX IF NOT EXISTS idx_stadicticasPlay_fecha_video ON stadicticasPlay (create_to, video);
+		CREATE INDEX IF NOT EXISTS idx_stadicticasPlay_date_expr ON stadicticasPlay (DATE(create_to), video);
 	`
 	GET_VIDEOS_PAGES_EXECUTE = `
 		SELECT id, titulo, descripcion, nombre_archivo, creado_en 
@@ -58,6 +58,16 @@ var (
 	`
 	GET_LIST_PLAYIST      = `SELECT id, nombre, descripcion FROM playlists order by creado_en DESC`
 	GET_VIDEO_BY_PLAYLIST = `SELECT video FROM playlist_videos WHERE playlist_id = ? ORDER BY orden`
+	GET_VIDEOS_TOP_TODAY  = `
+		SELECT 
+			create_to AS fecha,
+			video,
+			COUNT(*) AS total_reproducciones
+		FROM stadicticasPlay
+		WHERE DATE(create_to) = DATE('now', 'localtime')
+		GROUP BY video
+		ORDER BY total_reproducciones DESC;
+	`
 
 	INSERT_PID_STATEMENT      = "INSERT OR REPLACE INTO procesos_ejecucion (pid, ruta_ejecutable, estado) VALUES (?, ?, ?);"
 	INSERT_PLAYLIST_STATEMENT = `
@@ -68,4 +78,5 @@ var (
 		INSERT INTO playlist_videos (playlist_id, video, orden)
 		VALUES (?, ?, ?)
 	`
+	INSERT_METRICAS_VIDEOS = `INSERT INTO stadicticasPlay (video) VALUES (?);`
 )

@@ -6,6 +6,10 @@ type INSERTPID struct {
 	Estado string
 }
 
+type INSERTMETRICASVIDEOS struct {
+	Video string
+}
+
 type BODY_CREATE_PLAYLIST struct {
 	Nombre      string `json:"nombre" binding:"required"`
 	Descripcion string `json:"descripcion" binding:"required"`

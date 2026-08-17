@@ -30,6 +30,12 @@ type PLAYLIST struct {
 	Descripcion string
 }
 
+type METRICA_DATE_VIDEOS struct {
+	Fecha    time.Time
+	Video    string
+	Repoducc int64
+}
+
 type INSERT_PLAYLIST struct {
 	Nombre      string
 	Descripcion string

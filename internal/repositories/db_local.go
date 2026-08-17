@@ -107,6 +107,26 @@ func InserVideoPlaylist(db *sql.DB, input types.INSERT_MUSIC_PLAYLIST) (bool, er
 	return true, nil
 }
 
+func InsertMetricasVideos(db *sql.DB, input types.INSERTMETRICASVIDEOS) (bool, error) {
+	prepare, err_prepare := db.Prepare(vars.INSERT_METRICAS_VIDEOS)
+	if err_prepare != nil {
+		return false, err_prepare
+	}
+	defer prepare.Close()
+
+	result, err_result := prepare.Exec(input.Video)
+	if err_result != nil {
+		return false, err_prepare
+	}
+
+	_, err_afected := result.RowsAffected()
+	if err_afected != nil {
+		return true, err_afected
+	}
+
+	return true, nil
+}
+
 /* SELECTS */
 func GETLASTPIDPATH(db *sql.DB) (*[]types.PROCESS_EXECUTE, error) {
 	results, err := db.Query(vars.GET_LAST_TEN_PROCESS_EXECUTE)
@@ -175,4 +195,24 @@ func GetListVideoByPlayList(db *sql.DB, idplaylist int64) ([]string, error) {
 	}
 
 	return listados, nil
+}
+
+func GetMetricaFuncToday(db *sql.DB) (*[]types.METRICA_DATE_VIDEOS, error) {
+	var result []types.METRICA_DATE_VIDEOS = []types.METRICA_DATE_VIDEOS{}
+	rows, err_rows := db.Query(vars.GET_VIDEOS_TOP_TODAY)
+	if err_rows != nil {
+		return nil, err_rows
+	}
+
+	for rows.Next() {
+		var v types.METRICA_DATE_VIDEOS
+		rows.Scan(&v.Fecha, &v.Video, &v.Repoducc)
+		result = append(result, v)
+	}
+
+	if err_t := rows.Err(); err_t != nil {
+		return nil, err_t
+	}
+
+	return &result, nil
 }
