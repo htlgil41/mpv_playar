@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bufio"
+	"encoding/json"
 	"fmt"
+	"path/filepath"
 	"playar/internal/context"
 	"playar/internal/database"
 	"playar/internal/helpers"
@@ -40,6 +43,7 @@ func main() {
 	if err_initserverunix != nil {
 		return
 	}
+
 	result_execute, _ := repositories.InsertProcess(
 		db_local,
 		types.INSERTPID{
@@ -58,10 +62,13 @@ func main() {
 		return
 	}
 
+	go ReaderServerUnix(server_unix)
+
 	defer server_unix.Connect.Close()
 	time.Sleep(3 * time.Second)
 	/* CONFIG API GIN EXECUTE */
 	router := gin.Default()
+	router.Use(libs.RateLimiter())
 
 	router.GET("/ping", context.PingContext(db_local))
 	router.GET("/pid", context.GetLastPids(db_local))
@@ -75,4 +82,45 @@ func main() {
 	router.DELETE("/playlist", context.CLEARPLAYLISTCONTEXT(server_unix))
 
 	router.Run(fmt.Sprintf(":%d", config_vyper.Server.Port))
+
+}
+
+func ReaderServerUnix(cnet *libs.ConnectionUnix) {
+	reader := bufio.NewReader(cnet.Connect)
+
+	for {
+		vals, errRead := reader.ReadString('\n')
+		if errRead != nil {
+			fmt.Printf("Conexión cerrada o error de lectura: %v\n", errRead)
+			break
+		}
+
+		var mapa_eventData map[string]any
+		if err := json.Unmarshal([]byte(vals), &mapa_eventData); err != nil {
+			continue
+		}
+
+		if event, ok := mapa_eventData["event"].(string); ok && event == "start-file" {
+			_, err := cnet.Connect.Write([]byte(`{ "command": ["get_property", "playlist"] }` + "\n"))
+			if err != nil {
+				continue
+			}
+			continue
+		}
+
+		var response types.Response
+		if err := json.Unmarshal([]byte(vals), &response); err != nil {
+			continue
+		}
+
+		if response.Error == "" && len(response.Data) == 0 {
+			continue
+		}
+
+		for _, item := range response.Data {
+			if item.Playing {
+				fmt.Println(filepath.Base(item.Filename))
+			}
+		}
+	}
 }

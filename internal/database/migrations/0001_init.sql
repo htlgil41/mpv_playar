@@ -22,6 +22,12 @@ CREATE TABLE IF NOT EXISTS procesos_ejecucion (
     iniciado_en DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS stadicticasPlay (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    video TEXT NOT NULL,
+    create_to DATETIME DEFAULT CURRENT_TIMESTAMP
+)
+
 CREATE INDEX IF NOT EXISTS idx_playlist_videos_playlist_id ON playlist_videos(playlist_id);
 CREATE INDEX IF NOT EXISTS idx_playlist_videos_orden ON playlist_videos(playlist_id, orden);
 CREATE INDEX IF NOT EXISTS idx_playlist_videos_video ON playlist_videos(video);
@@ -31,3 +37,5 @@ CREATE INDEX IF NOT EXISTS idx_procesos_pid ON procesos_ejecucion(pid);
 CREATE INDEX IF NOT EXISTS idx_procesos_estado ON procesos_ejecucion(estado);
 CREATE INDEX IF NOT EXISTS idx_procesos_iniciado_en ON procesos_ejecucion(iniciado_en);
 CREATE INDEX IF NOT EXISTS idx_procesos_estado_iniciado ON procesos_ejecucion(estado, iniciado_en);
+CREATE INDEX idx_stadicticasPlay_fecha_video ON stadicticasPlay (create_to, video);
+CREATE INDEX idx_stadicticasPlay_date_expr ON stadicticasPlay (DATE(create_to), video);
