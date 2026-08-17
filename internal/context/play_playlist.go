@@ -32,9 +32,6 @@ func PlayListNew(db *sql.DB, cnet *libs.ConnectionUnix, config *libs.ConfigApp) 
 			})
 			return
 		}
-
-		fmt.Println(videos)
-
 		var videos_noadd []string
 		videos_agregados := 0
 
