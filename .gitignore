@@ -1,4 +1,5 @@
 cmd/no_build
+apps/
 
 playar.db
 config.yaml
