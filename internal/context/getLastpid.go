@@ -23,7 +23,7 @@ func GetLastPids(db *sql.DB) gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusCreated, gin.H{
+		c.JSON(http.StatusOK, gin.H{
 			"error":   nil,
 			"message": "resultados obtenidos",
 			"data":    &execute,
