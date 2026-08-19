@@ -17,7 +17,7 @@ func GetLastPids(db *sql.DB) gin.HandlerFunc {
 
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"error":   err,
+				"error":   err.Error(),
 				"message": "No se han podido recibir los ultimos pid de processos",
 			})
 			return
