@@ -8,8 +8,8 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-func CreateDbSqlLite() (*sql.DB, error) {
-	db, errDb := sql.Open("sqlite", "playar.db")
+func CreateDbSqlLite(path string) (*sql.DB, error) {
+	db, errDb := sql.Open("sqlite", path)
 	if errDb != nil {
 		return nil, errDb
 	}

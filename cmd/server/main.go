@@ -22,7 +22,7 @@ func main() {
 		return
 	}
 
-	db_local, err_dblocacl := database.CreateDbSqlLite()
+	db_local, err_dblocacl := database.CreateDbSqlLite(config_vyper.Server.DBLite)
 	if err_dblocacl != nil {
 		fmt.Println(err_dblocacl)
 	}
@@ -53,7 +53,7 @@ func main() {
 		fmt.Println("PROCESS REGISTER SUCESS")
 	}
 
-	server_unix, err_serverunix := libs.ServerSocketForUnix(config_vyper.UnixServerMpv.Path_server)
+	server_unix, err_serverunix := libs.ServerSocketForUnix(config_vyper.Paths.Path_server)
 	if err_serverunix != nil {
 		fmt.Println(err_serverunix.Error())
 		return
