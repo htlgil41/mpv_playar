@@ -26,7 +26,7 @@ func DELETEPLAYLIST(db *sql.DB) gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusOK, gin.H{
 			"error":   nil,
 			"message": "Se ha eliminado la playlist correctamente junto con los videos asociados a ella",
 		})

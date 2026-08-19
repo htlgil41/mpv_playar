@@ -243,7 +243,7 @@ func DELETEPLAYLIST(db *sql.DB, id_playlist int64) (bool, error) {
 	}
 	defer prepareDeleteVideos.Close()
 
-	_, err_execDeleteVideos := prepare.Exec(id_playlist)
+	_, err_execDeleteVideos := prepareDeleteVideos.Exec(id_playlist)
 	if err_execDeleteVideos != nil {
 		tr.Rollback()
 		return false, fmt.Errorf("Error ejecutar la operacion para eliminar una playlist %s", err_exe.Error())
