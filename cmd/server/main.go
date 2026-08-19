@@ -57,7 +57,7 @@ func main() {
 
 	server_unix, err_serverunix := libs.ServerSocketForUnix(config_vyper.Paths.Path_servermpv)
 	if err_serverunix != nil {
-		fmt.Println(err_serverunix.Error())
+		fmt.Printf("Error al conextarse a unix/pipe %s\n", err_serverunix.Error())
 		return
 	}
 
