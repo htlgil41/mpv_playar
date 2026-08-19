@@ -61,10 +61,10 @@ func main() {
 		return
 	}
 
-	go helpers.ReaderServerUnix(server_unix, db_local)
-
-	defer server_unix.Connect.Close()
 	time.Sleep(3 * time.Second)
+	go helpers.ReaderServerUnix(server_unix, db_local)
+	defer server_unix.Connect.Close()
+
 	/* CONFIG API GIN EXECUTE */
 	router := gin.Default()
 	router.Use(libs.RateLimiter())
@@ -82,5 +82,4 @@ func main() {
 	router.DELETE("/playlist", context.CLEARPLAYLISTCONTEXT(server_unix))
 
 	router.Run(fmt.Sprintf(":%d", config_vyper.Server.Port))
-
 }
