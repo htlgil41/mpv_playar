@@ -1,4 +1,3 @@
-
 # 🎥 mpv_playar
 
 Aplicación y API REST escrita en **Go** para el control y gestión de playlists de video en pantallas publicitarias para la corporación/grupo **MaraPlus**.
@@ -64,12 +63,13 @@ server:
 
 ### 🎵 Control de Playlists
 
-|  Método  | Endpoint             | Descripción                                                             |
-| :--------: | :------------------- | :----------------------------------------------------------------------- |
-|  `GET`  | `/playlist`        | Obtiene la lista de reproducción actual.                                |
-|  `POST`  | `/playlist`        | Crea una nueva lista de reproducción en la base de datos local.         |
-|  `POST`  | `/add-vtoplaylist` | Añade un video específico a una lista de reproducción existente.      |
-| `DELETE` | `/playlist`        | Vacía por completo la lista de reproducción actual y detiene el flujo. |
+|  Método  | Endpoint             | Descripción                                                               |
+| :--------: | :------------------- | :------------------------------------------------------------------------- |
+|  `GET`  | `/playlist`        | Obtiene la lista de reproducción actual.                                  |
+|  `POST`  | `/playlist`        | Crea una nueva lista de reproducción en la base de datos local.           |
+|  `POST`  | `/add-vtoplaylist` | Añade un video específico a una lista de reproducción existente.        |
+| `DELETE` | `/stop-playlis`    | Vacía por completo la lista de reproducción actual y detiene el flujo.   |
+| `DELETE` | `/playlist`        | Elimina una Playlist de la bases de datos local y sus videos relacionados. |
 
 ### 🕹️ Reproducción en Servidor (MPV)
 
