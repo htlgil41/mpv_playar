@@ -78,3 +78,15 @@ server:
 | `POST` | `/play-vtoplaylist` | Envía un video de la playlist directamente al socket Unix de MPV para reproducirlo. |
 | `POST` | `/next-video`       | Salta al siguiente video de la cola a través del servidor Unix.                     |
 | `POST` | `/playlist-newplay` | Inicializa y reproduce una nueva lista de reproducción cargando la configuración.  |
+
+## 🔨 Build proyecto for Linux/Windows
+
+```
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ./app/playar.exe ./cmd/server/
+```
+
+```
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./app/playar ./cmd/server/
+```
+
+**CGO_ENABLED** Puro codigo Go - **GOOS** Sistema operativo linux/windows - **GOARCH** Arquitextura del SO
