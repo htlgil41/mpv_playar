@@ -24,3 +24,7 @@ type BODY_ADD_MUSIC_PLAYLIST struct {
 	Video       string `json:"video" binding:"required"`
 	Orden       int    `json:"orden" binding:"required"`
 }
+
+type BODY_PLAY_PLAYLIST struct {
+	Playlist_id int64 `json:"playlist" binding:"required"`
+}

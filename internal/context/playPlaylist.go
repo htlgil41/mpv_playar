@@ -8,18 +8,24 @@ import (
 	"playar/internal/helpers"
 	"playar/internal/libs"
 	"playar/internal/repositories"
+	"playar/internal/types"
 
 	"github.com/gin-gonic/gin"
 )
 
 func PlayListNew(db *sql.DB, cnet *libs.ConnectionUnix, config *libs.ConfigApp) gin.HandlerFunc {
 	return gin.HandlerFunc(func(c *gin.Context) {
-		var totalCommands []byte = []byte{}
+		var body types.BODY_PLAY_PLAYLIST
+		if err_body := c.ShouldBindJSON(&body); err_body != nil {
+			c.JSON(http.StatusOK, gin.H{"message": "matched error body params", "error": err_body.Error()})
+			return
+		}
 
+		var totalCommands []byte = []byte{}
 		clearCmd := `{"command": ["stop"]}` + "\n" + `{"command": ["playlist-clear"]}` + "\n"
 		totalCommands = append(totalCommands, []byte(clearCmd)...)
 
-		videos, err_videos := repositories.GetListVideoByPlayList(db, 1)
+		videos, err_videos := repositories.GetListVideoByPlayList(db, body.Playlist_id)
 		if err_videos != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err_videos.Error(), "message": "No se ha podido correr la playlist"})
 			return
