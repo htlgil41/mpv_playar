@@ -216,3 +216,38 @@ func GetMetricaFuncToday(db *sql.DB) (*[]types.METRICA_DATE_VIDEOS, error) {
 
 	return &result, nil
 }
+
+// DELETES
+func DELETEPLAYLIST(db *sql.DB, id_playlist int64) (bool, error) {
+	tr, errTr := db.Begin()
+	if errTr != nil {
+		return false, fmt.Errorf("No se ha podido crear la transaccion para la operacion de eliminar una playlist %s", errTr.Error())
+	}
+	defer tr.Commit()
+
+	prepare, err_prepare := tr.Prepare(vars.DELETE_PLAYLIST)
+	if err_prepare != nil {
+		return false, fmt.Errorf("Error al preparar la consulta para eliminar la playlist%s", err_prepare.Error())
+	}
+	defer prepare.Close()
+
+	_, err_exe := prepare.Exec(id_playlist)
+	if err_exe != nil {
+		return false, fmt.Errorf("Error ejecutar la operacion para eliminar una playlist %s", err_exe.Error())
+	}
+
+	prepareDeleteVideos, err_deleteVideos := tr.Prepare(vars.DELELTE_VIDEOS_PLAYLIST)
+	if err_deleteVideos != nil {
+		tr.Rollback()
+		return false, fmt.Errorf("Error al preparar la consulta para eliminar la playlist%s", err_prepare.Error())
+	}
+	defer prepareDeleteVideos.Close()
+
+	_, err_execDeleteVideos := prepare.Exec(id_playlist)
+	if err_execDeleteVideos != nil {
+		tr.Rollback()
+		return false, fmt.Errorf("Error ejecutar la operacion para eliminar una playlist %s", err_exe.Error())
+	}
+
+	return true, nil
+}

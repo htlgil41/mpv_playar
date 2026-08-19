@@ -87,7 +87,8 @@ func main() {
 	router.POST("/playlist", context.CREATEPLAYLIST(db_local))
 	router.POST("/add-vtoplaylist", context.ADDVIDEOPLAYLIST(db_local))
 	router.POST("/playlist-newplay", context.PlayListNew(db_local, server_unix, config_vyper))
-	router.DELETE("/playlist", context.CLEARPLAYLISTCONTEXT(server_unix))
+	router.DELETE("/playlist", context.DELETEPLAYLIST(db_local))
+	router.DELETE("/stop-playlist", context.STOPPLAYLIST(server_unix))
 
 	router.Run(fmt.Sprintf(":%d", config_vyper.Server.Port))
 }

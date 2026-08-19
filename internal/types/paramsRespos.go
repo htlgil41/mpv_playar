@@ -28,3 +28,7 @@ type BODY_ADD_MUSIC_PLAYLIST struct {
 type BODY_PLAY_PLAYLIST struct {
 	Playlist_id int64 `json:"playlist" binding:"required"`
 }
+
+type BODY_DELETE_PLAYLIST struct {
+	Playlist_id int64 `json:"playlist" binding:"required"`
+}

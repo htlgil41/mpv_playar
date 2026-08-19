@@ -79,4 +79,7 @@ var (
 		VALUES (?, ?, ?)
 	`
 	INSERT_METRICAS_VIDEOS = `INSERT INTO stadicticasPlay (video) VALUES (?);`
+
+	DELETE_PLAYLIST         = `DELETE FROM playlists WHERE id = ?`
+	DELELTE_VIDEOS_PLAYLIST = `DELETE FROM playlist_videos WHERE playlist_id = ?`
 )

@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CLEARPLAYLISTCONTEXT(cnet *libs.ConnectionUnix) gin.HandlerFunc {
+func STOPPLAYLIST(cnet *libs.ConnectionUnix) gin.HandlerFunc {
 	return gin.HandlerFunc(func(c *gin.Context) {
 		_, err_outcommand := cnet.Connect.Write([]byte(`{ "command": ["stop"] }` + "\n"))
 		if err_outcommand != nil {
