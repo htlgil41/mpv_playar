@@ -5,8 +5,8 @@ import (
 )
 
 type Paths struct {
-	Path_mega   string `mapstructure:"path_mega"`
-	Path_server string `mapstructure:"path_server"`
+	Path_mega      string `mapstructure:"path_mega"`
+	Path_servermpv string `mapstructure:"path_server_mpv"`
 }
 
 type Server struct {

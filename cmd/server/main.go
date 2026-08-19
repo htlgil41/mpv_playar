@@ -36,7 +36,9 @@ func main() {
 		fmt.Println("EXECUTE INIT DB NO SE CREO NADA DE NUEVO SE PUDO CARGAR LA DB")
 	}
 
-	serverUnix, err_initserverunix := helpers.StartServerUnix(libs.ScreenShotsView())
+	serverUnix, err_initserverunix := helpers.StartServerUnix(
+		libs.ScreenShotsView(), config_vyper.Paths.Path_servermpv,
+	)
 	if err_initserverunix != nil {
 		return
 	}
@@ -53,7 +55,7 @@ func main() {
 		fmt.Println("PROCESS REGISTER SUCESS")
 	}
 
-	server_unix, err_serverunix := libs.ServerSocketForUnix(config_vyper.Paths.Path_server)
+	server_unix, err_serverunix := libs.ServerSocketForUnix(config_vyper.Paths.Path_servermpv)
 	if err_serverunix != nil {
 		fmt.Println(err_serverunix.Error())
 		return

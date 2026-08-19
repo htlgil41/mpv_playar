@@ -11,11 +11,11 @@ type StartServerUnixResponse struct {
 	Path string
 }
 
-func StartServerUnix(displays int) (StartServerUnixResponse, error) {
+func StartServerUnix(displays int, pipe string) (StartServerUnixResponse, error) {
 	cmd := ExecuteCommand(
 		"mpv",
 		[]string{
-			"--input-ipc-server=/tmp/mpvsocket",
+			fmt.Sprintf("--input-ipc-server=%s", pipe),
 			"--idle=yes",
 			"--fullscreen=yes",
 			fmt.Sprintf("--screen=%d", displays),
