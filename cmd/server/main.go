@@ -10,8 +10,8 @@ import (
 	"playar/internal/types"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	_ "github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -68,6 +68,14 @@ func main() {
 	/* CONFIG API GIN EXECUTE */
 	router := gin.Default()
 	router.Use(libs.RateLimiter())
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	router.GET("/ping", context.PingContext(db_local))
 	router.GET("/pid", context.GetLastPids(db_local))
