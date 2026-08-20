@@ -1,6 +1,8 @@
 package libs
 
 import (
+	"fmt"
+
 	"github.com/spf13/viper"
 )
 
@@ -14,9 +16,21 @@ type Server struct {
 	DBLite string `mapstructure:"dblite"`
 }
 
+type MailsSendersNotifier struct {
+	To          string `mapstructure:"to_gmail"`
+	Password_to string `mapstructure:"password_togmail"`
+	From        string `mapstructure:"from_gmail"`
+}
+
+type App struct {
+	Sucursal string `mapstructure:"sucursal"`
+}
+
 type ConfigApp struct {
-	Paths  Paths  `mapstructure:"paths"`
-	Server Server `mapstructure:"server"`
+	App                  App                   `mapstructure:"app"`
+	Paths                Paths                 `mapstructure:"paths"`
+	Server               Server                `mapstructure:"server"`
+	MailsSendersNotifier *MailsSendersNotifier `mapstructure:"mailssendersnotifier"`
 }
 
 func LoadConfigWithVyper(path string) (*ConfigApp, error) {
@@ -34,5 +48,6 @@ func LoadConfigWithVyper(path string) (*ConfigApp, error) {
 		return nil, err
 	}
 
+	fmt.Println(config)
 	return &config, nil
 }

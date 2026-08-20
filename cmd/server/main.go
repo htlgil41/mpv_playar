@@ -62,7 +62,7 @@ func main() {
 	}
 
 	time.Sleep(3 * time.Second)
-	go helpers.ReaderServerUnix(server_unix, db_local)
+	go helpers.ReaderServerUnix(server_unix, db_local, config_vyper)
 	defer server_unix.Connect.Close()
 
 	/* CONFIG API GIN EXECUTE */

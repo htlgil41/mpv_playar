@@ -11,9 +11,15 @@ import (
 	"playar/internal/types"
 )
 
-func ReaderServerUnix(cnet *libs.ConnectionUnix, db *sql.DB) {
+func ReaderServerUnix(cnet *libs.ConnectionUnix, db *sql.DB, config *libs.ConfigApp) {
 	reader := bufio.NewReader(cnet.Connect)
 	defer fmt.Println("LECTOR UNIX MUERTO")
+	defer ExirProgram(
+		config,
+		"Playar se ha detenido porque ha ocurrido una interrupcion en el socket unix/pipe de Mpv",
+		config.App.Sucursal,
+		"Player ha dejado de leer el Buffer unix/pipe del servicio mpv por lo que se dejo de reproducir videos",
+	)
 
 	for {
 		vals, errRead := reader.ReadString('\n')
