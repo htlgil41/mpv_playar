@@ -24,7 +24,6 @@ func ReaderServerUnix(cnet *libs.ConnectionUnix, db *sql.DB, config *libs.Config
 	for {
 		vals, errRead := reader.ReadString('\n')
 		if errRead != nil {
-			fmt.Printf("Conexión cerrada o error de lectura: %v\n", errRead)
 			break
 		}
 
