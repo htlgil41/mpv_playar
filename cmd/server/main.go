@@ -47,7 +47,7 @@ func main() {
 	}
 
 	serverUnix, err_initserverunix := helpers.StartServerUnix(
-		libs.ScreenShotsView(), config_vyper.Paths.Path_servermpv,
+		libs.ScreenShotsView(), config_vyper,
 	)
 	if err_initserverunix != nil {
 		return

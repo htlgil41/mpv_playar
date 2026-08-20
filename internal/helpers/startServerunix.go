@@ -3,6 +3,7 @@ package helpers
 import (
 	"context"
 	"fmt"
+	"playar/internal/libs"
 	"time"
 )
 
@@ -11,18 +12,21 @@ type StartServerUnixResponse struct {
 	Path string
 }
 
-func StartServerUnix(displays int, pipe string) (StartServerUnixResponse, error) {
+func StartServerUnix(
+	displays int,
+	config *libs.ConfigApp,
+) (StartServerUnixResponse, error) {
 	cmd := ExecuteCommand(
 		"mpv",
 		[]string{
-			fmt.Sprintf("--input-ipc-server=%s", pipe),
+			fmt.Sprintf("--input-ipc-server=%s", config.Paths.Path_servermpv),
 			"--idle=yes",
 			"--fullscreen=yes",
 			"--keepaspect=no",
 			"--no-osc",
 			"--osd-level=0",
 			"--cursor-autohide=0",
-			"--vf=scale=3072:256",
+			fmt.Sprintf("--vf=scale=%d:%d", config.App.Scale_x, config.App.Scale_y),
 			"--no-keepaspect-window",
 			fmt.Sprintf("--screen=%d", displays),
 			"--loop-playlist=inf",

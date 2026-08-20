@@ -24,6 +24,8 @@ type MailsSendersNotifier struct {
 
 type App struct {
 	Sucursal string `mapstructure:"sucursal"`
+	Scale_x  int64  `mapstructure:"scale_x"`
+	Scale_y  int64  `mapstructure:"scale_y"`
 }
 
 type ConfigApp struct {
