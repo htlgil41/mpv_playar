@@ -11,8 +11,13 @@ func SendEmailServerExit(
 	asunto string, suc string,
 	body string,
 ) {
-	from := ""
-	password := ""
+
+	if config.MailsSendersNotifier == nil {
+		return
+	}
+
+	from := config.MailsSendersNotifier.From
+	password := config.MailsSendersNotifier.Password_to
 	to := []string{""}
 
 	smtpHost := "smtp.gmail.com"
