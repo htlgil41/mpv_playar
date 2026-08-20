@@ -1,0 +1,17 @@
+app:
+  sucursal: 'SUCURSAL MARAPLUS'
+  scale_x: 3072
+  scale_y: 256
+
+paths:
+  path_mega: 'PATH DE VIDEOS MEGAS'
+  path_server_mpv:  'SOCKET_UNIX/PIPE'
+
+mailssendersnotifier:
+  to_gmail: 'TO GMAIL'
+  password_togmail: 'CLAVE FOR APPP'
+  from_gmail: 'FROM GMAIL'
+
+server:
+  port: 8000 // PUERTO API
+  dblite: 'PATH DE DB LOCAL'
