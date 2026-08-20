@@ -49,11 +49,12 @@ server:
 
 ### 📊 Sistema y Métricas
 
-| Método | Endpoint     | Descripción                                                       |
-| :-----: | :----------- | :----------------------------------------------------------------- |
-| `GET` | `/ping`    | Verifica el estado del servidor y la conexión a la base de datos. |
-| `GET` | `/pid`     | Obtiene los últimos identificadores de proceso (PIDs) activos.    |
-| `GET` | `/metrica` | Devuelve las métricas y estadísticas de los videos reproducidos. |
+| Método | Endpoint          | Descripción                                                       |
+| :-----: | :--------------- | :----------------------------------------------------------------- |
+| `GET` | `/ping`         | Verifica el estado del servidor y la conexión a la base de datos. |
+| `GET` | `/pid`          | Obtiene los últimos identificadores de proceso (PIDs) activos.    |
+| `GET` | `/metrica`      | Devuelve las métricas y estadísticas de los videos reproducidos.  |
+| `GET` | `/metricas-range` | Devuelve métricas de videos reproduccidos en un rango de fechas específico. |
 
 ### 🎬 Gestión de Videos y Rutas
 
@@ -78,6 +79,61 @@ server:
 | `POST` | `/play-vtoplaylist` | Envía un video de la playlist directamente al socket Unix de MPV para reproducirlo. |
 | `POST` | `/next-video`       | Salta al siguiente video de la cola a través del servidor Unix.                     |
 | `POST` | `/playlist-newplay` | Inicializa y reproduce una nueva lista de reproducción cargando la configuración.  |
+
+---
+
+### 📈 Detalle: `GET /metricas-range`
+
+Obtiene métricas de reproducción de videos filtradas por un rango de fechas exacto.
+
+**Parámetros de consulta (query params):**
+
+| Parámetro | Tipo   | Formato      | Requerido | Descripción          |
+| :-------- | :----- | :----------- | :--------: | :------------------- |
+| `gte`     | `date` | `YYYY-MM-DD` |     Sí     | Fecha de inicio      |
+| `lte`     | `date` | `YYYY-MM-DD` |     Sí     | Fecha de fin         |
+
+**Ejemplo de solicitud:**
+
+```
+GET /metricas-range?gte=2026-01-01&lte=2026-08-20
+```
+
+**Respuesta exitosa (200):**
+
+```json
+{
+  "querys": {
+    "Gte": "2026-01-01T00:00:00Z",
+    "Lte": "2026-08-20T00:00:00Z"
+  },
+  "data": [
+    {
+      "Fecha": "0001-01-01T00:00:00Z",
+      "Video": "video_nombre.mp4",
+      "Repoducc": 42
+    }
+  ]
+}
+```
+
+**Respuesta error (400):**
+
+```json
+{
+  "error": "Error al tratar de serealizar los datos",
+  "message": "Field Gte is required"
+}
+```
+
+**Respuesta error (500):**
+
+```json
+{
+  "error": "error de la base de datos",
+  "message": "No se ha podido obtener la informacion de la db"
+}
+```
 
 ## 🔨 Build proyecto for Linux/Windows
 
