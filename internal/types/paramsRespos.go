@@ -1,5 +1,7 @@
 package types
 
+import "time"
+
 type INSERTPID struct {
 	Pid    int
 	Path   string
@@ -8,6 +10,11 @@ type INSERTPID struct {
 
 type INSERTMETRICASVIDEOS struct {
 	Video string
+}
+
+type RANGEBEETWENDATEREPOSITORIE struct {
+	Lte time.Time
+	Gte time.Time
 }
 
 type BODY_CREATE_PLAYLIST struct {
@@ -31,4 +38,9 @@ type BODY_PLAY_PLAYLIST struct {
 
 type BODY_DELETE_PLAYLIST struct {
 	Playlist_id int64 `json:"playlist" binding:"required"`
+}
+
+type PARAM_GET_METRICAS_RANGES struct {
+	Gte time.Time `form:"gte" time_format:"2006-01-02" binding:"required"`
+	Lte time.Time `form:"lte" time_format:"2006-01-02" binding:"required"`
 }

@@ -82,6 +82,7 @@ func main() {
 	router.GET("/playlist", context.GETPLAYLISTCONTEXT(db_local))
 	router.GET("/videos-mega", context.GETVIDEOPATHCONTEX(config_vyper.Paths.Path_mega))
 	router.GET("/metrica", context.GetMetricasVideo(db_local))
+	router.GET("/metricas-range", context.MetricaByRangeDate(db_local))
 	router.POST("/play-vtoplaylist", context.ADDVIDEOPLAYCONTECXT(server_unix, config_vyper))
 	router.POST("/next-video", context.NextVideosContext(server_unix))
 	router.POST("/playlist", context.CREATEPLAYLIST(db_local))

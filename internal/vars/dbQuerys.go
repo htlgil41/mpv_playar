@@ -68,6 +68,15 @@ var (
 		GROUP BY video
 		ORDER BY total_reproducciones DESC;
 	`
+	GET_VIDEOS_TOP_RANGE = `
+		SELECT 
+			video,
+			COUNT(*) AS total_reproducciones
+		FROM stadicticasPlay
+		WHERE create_to BETWEEN ? AND ?
+		GROUP BY video
+		ORDER BY total_reproducciones DESC;
+	`
 
 	INSERT_PID_STATEMENT      = "INSERT OR REPLACE INTO procesos_ejecucion (pid, ruta_ejecutable, estado) VALUES (?, ?, ?);"
 	INSERT_PLAYLIST_STATEMENT = `

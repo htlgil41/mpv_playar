@@ -217,6 +217,27 @@ func GetMetricaFuncToday(db *sql.DB) (*[]types.METRICA_DATE_VIDEOS, error) {
 	return &result, nil
 }
 
+func GetMetricasByRanger(db *sql.DB, input types.RANGEBEETWENDATEREPOSITORIE) (*[]types.METRICA_DATE_VIDEOS, error) {
+	var result []types.METRICA_DATE_VIDEOS = []types.METRICA_DATE_VIDEOS{}
+	rows, err_rows := db.Query(vars.GET_VIDEOS_TOP_RANGE, input.Gte, input.Lte)
+	if err_rows != nil {
+		return nil, err_rows
+	}
+
+	for rows.Next() {
+		var v types.METRICA_DATE_VIDEOS
+		rows.Scan(&v.Fecha, &v.Video, &v.Repoducc)
+		result = append(result, v)
+	}
+
+	if err_t := rows.Err(); err_t != nil {
+		return nil, err_t
+	}
+
+	return &result, nil
+
+}
+
 // DELETES
 func DELETEPLAYLIST(db *sql.DB, id_playlist int64) (bool, error) {
 	tr, errTr := db.Begin()
