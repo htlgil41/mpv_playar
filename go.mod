@@ -4,6 +4,8 @@ go 1.25.5
 
 require golang.org/x/time v0.15.0
 
+require github.com/gorilla/websocket v1.5.3 // indirect
+
 require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/bytedance/gopkg v0.1.4 // indirect

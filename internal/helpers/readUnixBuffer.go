@@ -11,7 +11,11 @@ import (
 	"playar/internal/types"
 )
 
-func ReaderServerUnix(cnet *libs.ConnectionUnix, db *sql.DB, config *libs.ConfigApp) {
+func ReaderServerUnix(
+	cnet *libs.ConnectionUnix,
+	db *sql.DB, config *libs.ConfigApp,
+	hub *libs.Hub,
+) {
 	reader := bufio.NewReader(cnet.Connect)
 	defer fmt.Println("LECTOR UNIX MUERTO")
 	defer ExirProgram(
@@ -58,10 +62,12 @@ func ReaderServerUnix(cnet *libs.ConnectionUnix, db *sql.DB, config *libs.Config
 						Video: base_url,
 					},
 				)
-
 				if err_ != nil {
 					fmt.Println(err_.Error())
+					continue
 				}
+
+				hub.Broadcast(1, fmt.Appendf(nil, "Video reproduciendoce: %s", base_url))
 			}
 		}
 	}

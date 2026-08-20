@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"playar/internal/context"
 	"playar/internal/database"
 	"playar/internal/helpers"
@@ -12,7 +13,17 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
 )
+
+var upgrader = websocket.Upgrader{
+	EnableCompression: true,
+	ReadBufferSize:    1024,
+	WriteBufferSize:   1024,
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
+}
 
 func main() {
 
@@ -62,10 +73,12 @@ func main() {
 	}
 
 	time.Sleep(3 * time.Second)
-	go helpers.ReaderServerUnix(server_unix, db_local, config_vyper)
 	defer server_unix.Connect.Close()
 
 	/* CONFIG API GIN EXECUTE */
+	hub := libs.NewHub()
+	go helpers.ReaderServerUnix(server_unix, db_local, config_vyper, hub)
+
 	router := gin.Default()
 	router.Use(libs.RateLimiter())
 	router.Use(cors.New(cors.Config{
@@ -91,5 +104,6 @@ func main() {
 	router.DELETE("/playlist", context.DELETEPLAYLIST(db_local))
 	router.DELETE("/stop-playlist", context.STOPPLAYLIST(server_unix))
 
+	router.GET("/ws", context.Ws(upgrader, hub))
 	router.Run(fmt.Sprintf(":%d", config_vyper.Server.Port))
 }
