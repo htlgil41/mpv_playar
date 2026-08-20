@@ -19,11 +19,11 @@ func MetricaByRangeDate(db *sql.DB) gin.HandlerFunc {
 			})
 			return
 		}
-
-		resultado, err_resultado := repositories.GetMetricasByRanger(db, types.RANGEBEETWENDATEREPOSITORIE{
-			Gte: params.Gte,
-			Lte: params.Lte,
-		})
+		resultado, err_resultado := repositories.GetMetricasByRanger(
+			db, types.RANGEBEETWENDATEREPOSITORIE{
+				Gte: params.Gte,
+				Lte: params.Lte,
+			})
 		if err_resultado != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error":   err_resultado.Error(),

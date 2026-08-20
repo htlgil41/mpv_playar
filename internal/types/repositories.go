@@ -36,6 +36,11 @@ type METRICA_DATE_VIDEOS struct {
 	Repoducc int64
 }
 
+type METRICA_RANGE_DATE_VIDEOS struct {
+	Video    string
+	Repoducc int64
+}
+
 type INSERT_PLAYLIST struct {
 	Nombre      string
 	Descripcion string

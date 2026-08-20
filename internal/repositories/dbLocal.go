@@ -217,16 +217,20 @@ func GetMetricaFuncToday(db *sql.DB) (*[]types.METRICA_DATE_VIDEOS, error) {
 	return &result, nil
 }
 
-func GetMetricasByRanger(db *sql.DB, input types.RANGEBEETWENDATEREPOSITORIE) (*[]types.METRICA_DATE_VIDEOS, error) {
-	var result []types.METRICA_DATE_VIDEOS = []types.METRICA_DATE_VIDEOS{}
-	rows, err_rows := db.Query(vars.GET_VIDEOS_TOP_RANGE, input.Gte, input.Lte)
+func GetMetricasByRanger(db *sql.DB, input types.RANGEBEETWENDATEREPOSITORIE) (*[]types.METRICA_RANGE_DATE_VIDEOS, error) {
+	var result []types.METRICA_RANGE_DATE_VIDEOS = []types.METRICA_RANGE_DATE_VIDEOS{}
+	rows, err_rows := db.Query(
+		vars.GET_VIDEOS_TOP_RANGE,
+		input.Gte.Format("2006-01-02"),
+		input.Lte.Format("2006-01-02"),
+	)
 	if err_rows != nil {
 		return nil, err_rows
 	}
 
 	for rows.Next() {
-		var v types.METRICA_DATE_VIDEOS
-		rows.Scan(&v.Fecha, &v.Video, &v.Repoducc)
+		var v types.METRICA_RANGE_DATE_VIDEOS
+		rows.Scan(&v.Video, &v.Repoducc)
 		result = append(result, v)
 	}
 
@@ -235,7 +239,6 @@ func GetMetricasByRanger(db *sql.DB, input types.RANGEBEETWENDATEREPOSITORIE) (*
 	}
 
 	return &result, nil
-
 }
 
 // DELETES
@@ -260,14 +263,14 @@ func DELETEPLAYLIST(db *sql.DB, id_playlist int64) (bool, error) {
 	prepareDeleteVideos, err_deleteVideos := tr.Prepare(vars.DELELTE_VIDEOS_PLAYLIST)
 	if err_deleteVideos != nil {
 		tr.Rollback()
-		return false, fmt.Errorf("Error al preparar la consulta para eliminar la playlist%s", err_prepare.Error())
+		return false, fmt.Errorf("Error al preparar la consulta para eliminar la playlist%s", err_deleteVideos.Error())
 	}
 	defer prepareDeleteVideos.Close()
 
 	_, err_execDeleteVideos := prepareDeleteVideos.Exec(id_playlist)
 	if err_execDeleteVideos != nil {
 		tr.Rollback()
-		return false, fmt.Errorf("Error ejecutar la operacion para eliminar una playlist %s", err_exe.Error())
+		return false, fmt.Errorf("Error ejecutar la operacion para eliminar una playlist %s", err_execDeleteVideos.Error())
 	}
 
 	return true, nil

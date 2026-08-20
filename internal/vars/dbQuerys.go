@@ -73,7 +73,7 @@ var (
 			video,
 			COUNT(*) AS total_reproducciones
 		FROM stadicticasPlay
-		WHERE create_to BETWEEN ? AND ?
+		WHERE DATE(create_to) BETWEEN DATE(?) AND DATE(?)
 		GROUP BY video
 		ORDER BY total_reproducciones DESC;
 	`
